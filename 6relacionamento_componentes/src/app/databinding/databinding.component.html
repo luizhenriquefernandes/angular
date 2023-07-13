@@ -1,10 +1,16 @@
 <div id="container">
     <div id="divisao">
         <div id="central">
-            <h1>Data Bing</h1>            
+            <h1>Data Bing</h1>
+            <p>Aula 6 Fazendo o nome e calculando a idade</p>        
             <p>Olá {{nome}} você tem {{idade}}  anos</p>
+            <p>Aula  Fazendo o um botão</p>
             <button [disabled] = "checkoutDisable">invalido</button><br>
             <button (click) = "alertaInfo()">veja a verdade</button>
+            <p>Aula 8 criando botão e criando evento</p>
+            <button (click) = "alertaClica($event)">Clica Aqui aula 8</button>
+            <div id="movimento" (mousemove)="moveMouse($event)"></div>
+            <p>posição x: {{position.x}} - posição y: {{position.y}}</p>
         </div>
     </div>
 </div>
