@@ -1,0 +1,32 @@
+<h1>Aula 10-Diretivas Estruturais</h1>
+<p *ngIf="true">True</p>
+<!-- se for false não mostra na tela -->
+<p *ngIf="condition">Verdadeiro</p>
+<p *ngIf="azulVermelho; else elseBlock">Azul</p>
+<ng-template #elseBlock>
+    <p>Vermelho</p>
+</ng-template>
+<hr>
+<h1>Aula 11 Lavanda e Laranja Mudar a cada Clique</h1>
+<h1 *ngIf="laranjaLavandaClique">Lavanda</h1>
+<h1 *ngIf="!laranjaLavandaClique">Laranja</h1>
+<button (click)="onClick()">Clique</button>
+<hr>
+<h1>Aula 12 fazendo o *ngFor</h1>
+<!-- Objetivo criar uma lista e fazer um for com um interpolation
+com essa list criar um item.nome -->
+<ul>
+    <li *ngFor="let item of list">
+        {{item.nome}}
+    </li>
+</ul>
+<hr>
+<h1>Fazendo uma lista composta com produto e preço</h1>
+<ul>
+    <li *ngFor="let nome of list1">
+        {{nome.item}} = {{nome.preco}}
+    </li>
+</ul>
+
+
+

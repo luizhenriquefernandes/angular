@@ -4,13 +4,28 @@
             <h1>Data Bing</h1>
             <p>Aula 6 Fazendo o nome e calculando a idade</p>        
             <p>Olá {{nome}} você tem {{idade}}  anos</p>
-            <p>Aula  Fazendo o um botão</p>
+            <p>Aula 7 Fazendo o um botão</p>
             <button [disabled] = "checkoutDisable">invalido</button><br>
             <button (click) = "alertaInfo()">veja a verdade</button>
             <p>Aula 8 criando botão e criando evento</p>
             <button (click) = "alertaClica($event)">Clica Aqui aula 8</button>
             <div id="movimento" (mousemove)="moveMouse($event)"></div>
             <p>posição x: {{position.x}} - posição y: {{position.y}}</p>
+            <br>
+            <br>
+            <hr>
+            <h2>Aula 9: Two-way Biding</h2>
+            <!-- fazendo um interpolation com dois binding -->
+            <!-- ir na página: https://angular.io/api/forms/FormsModule 
+                ir em app.module.ts e importar em imports FORMSMODULE
+            após a implementação do ngModel é só chamar a variável e fazer
+            a interpolação, dessa forma o two-way bidings é importante para 
+            fazer os nomes serem vistos em tempo real-->
+            <input [(ngModel)]="nome">
+            {{nome}}
+
+
         </div>
+
     </div>
 </div>
