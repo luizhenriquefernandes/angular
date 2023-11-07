@@ -1,0 +1,10 @@
+.container{
+    height: 200vh;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    background-image: url(/assets/imagens/background-completo.png);   
+    align-items:center;
+    padding: 1rem 2rem;
+
+
+}

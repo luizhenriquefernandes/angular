@@ -160,3 +160,112 @@ O `elseBlock` é um recurso útil para adicionar mais flexibilidade ao seu códi
 
 
 Exercício fazando a janela mudar para lavanda e laranja a cada clique.
+
+
+AULA 16
+Aprendendo a trabalhar com variáveis privadas no angular
+export class DiretivasAtributosComponent {
+  private nome: string = "";
+} 
+como faço para ter acesso neste arquivo?
+
+diretivas-atributos.component.html
+<input [(ngModel)]="nome">
+quero ver como usar o get e o setter dentro de um mesmo atributo
+
+Para ter acesso ao atributo nome declarado na classe DiretivasAtributosComponent no arquivo diretivas-atributos.component.html, você pode criar um getter e um setter para o atributo na classe. Assim, você poderá usar o atributo em um elemento de entrada de dados, como um input, e também acessar e modificar o valor do atributo de forma segura.
+
+faça:
+export class DiretivasAtributosComponent {
+  private _nome: string = "";
+
+  // Getter para o atributo 'nome'
+  get nome(): string {
+    return this._nome;
+  }
+
+  // Setter para o atributo 'nome'
+  set nome(novoNome: string) {
+    this._nome = novoNome;
+    // Você pode adicionar qualquer lógica adicional que deseja executar quando o valor do atributo é modificado.
+    // Por exemplo, atualizar outras propriedades, disparar eventos, etc.
+  }
+}
+Agora, você pode usar o atributo nome com o getter e o setter no arquivo diretivas-atributos.component.html da seguinte maneira:
+
+<input [(ngModel)]="nome">
+Com o getter e o setter definidos, o Angular cuidará da sincronização entre o valor do atributo nome na classe e o valor do input no template. Quando o usuário digitar algo no input, o valor será refletido no atributo nome da classe através do setter. Da mesma forma, qualquer alteração no valor do atributo nome na classe será refletida no input através do getter.
+
+outra forma de se fazer
+
+
+pode inserir um valor no atributo nome diretamente dentro do construtor da classe DiretivasAtributosComponent, sem a necessidade de usar um getter e setter.
+
+export class DiretivasAtributosComponent {
+  private nome: string;
+
+  constructor() {
+    this.nome = "Valor inicial do atributo nome";
+  }
+}
+
+Nesse exemplo, definimos o atributo nome como privado, mas não utilizamos getters e setters. No construtor, atribuímos diretamente o valor inicial "Valor inicial do atributo nome" à variável nome.
+
+Quando você utiliza o atributo nome no template, ele terá o valor inicial atribuído no construtor:
+
+<input [(ngModel)]="nome">
+Dessa forma, o atributo nome estará disponível no template e, por padrão, terá o valor inicial definido no construtor. Você ainda poderá modificar o valor do atributo através da interação do usuário com o input, e o Angular cuidará de refletir as alterações tanto no atributo quanto no template.
+
+Usar um construtor para inicializar o valor do atributo é uma opção comum e útil em muitos casos, especialmente quando você deseja fornecer um valor padrão ao atributo logo no início.
+
+Lembre-se de que, ao utilizar essa abordagem, o atributo nome ainda é privado dentro da classe, o que significa que ele não pode ser acessado diretamente de fora da classe. Se você precisar acessar o valor do atributo de fora da classe, você pode criar um método público para obtê-lo.
+
+
+outra forma de se fazer é 
+
+
+existe uma técnica mais sofisticada para inicializar o valor do atributo nome e ao mesmo tempo permitir o acesso a ele de fora da classe. Você pode utilizar a injeção de dependências para inicializar o valor do atributo durante a construção do componente. Vamos ver como fazer isso:
+
+Passo 1: Crie um serviço para fornecer o valor inicial
+Primeiro, crie um serviço que forneça o valor inicial do atributo nome. Vamos chamá-lo de NomeService:
+
+import { Injectable } from '@angular/core';
+
+@Injectable()
+export class NomeService {
+  private valorInicial: string = "Valor inicial do atributo nome";
+
+  getValorInicial(): string {
+    return this.valorInicial;
+  }
+}
+
+
+Neste serviço, definimos uma propriedade privada valorInicial que representa o valor padrão que queremos para o atributo nome. Em seguida, criamos um método público getValorInicial() que retornará esse valor.
+
+Passo 2: Injete o serviço no componente
+Agora, injete o NomeService no seu componente DiretivasAtributosComponent e utilize-o para obter o valor inicial durante a construção do componente:
+
+import { Component, OnInit } from '@angular/core';
+import { NomeService } from '../nome.service';
+
+export class DiretivasAtributosComponent implements OnInit {
+  private nome: string;
+
+  constructor(private nomeService: NomeService) { }
+
+  ngOnInit(): void {
+    this.nome = this.nomeService.getValorInicial();
+  }
+}
+
+No construtor do componente, usamos a injeção de dependências para obter uma instância do NomeService e armazenamos a referência na propriedade nomeService. No método ngOnInit(), chamamos o método getValorInicial() do serviço para obter o valor inicial e atribuí-lo ao atributo nome.
+
+Passo 3: Use o atributo no template
+Agora você pode usar o atributo nome normalmente no template, como antes:
+
+<input [(ngModel)]="nome">
+
+Essa abordagem permite que você forneça um valor inicial mais sofisticado para o atributo nome, usando um serviço que pode conter lógicas mais complexas de inicialização. Além disso, você também pode acessar o valor do atributo de fora da classe, já que ele não é mais privado.
+
+Essa técnica de injeção de dependências é amplamente utilizada no Angular e é uma forma mais avançada e flexível de gerenciar a inicialização de atributos em seus componentes.

@@ -1,0 +1,225 @@
+cliente.component.html:
+
+html
+ 
+<!-- Template do componente Cliente -->
+<form [formGroup]="pessoaForm" (ngSubmit)="salvarPessoa()">
+  <label for="nome">Nome:</label>
+  <input type="text" id="nome" formControlName="nome">
+  
+  <label for="idade">Idade:</label>
+  <input type="number" id="idade" formControlName="idade">
+  
+  <button type="submit">Salvar Pessoa</button>
+</form>
+Este é o template do componente Cliente. É um formulário que usa o módulo de formulários reativos do Angular.
+[formGroup]="pessoaForm": Isso vincula o formulário HTML a uma instância do FormGroup chamada pessoaForm, permitindo que os campos do formulário sejam associados aos controles do formulário reativo.
+(ngSubmit)="salvarPessoa()": Isso especifica que a função salvarPessoa() será chamada quando o formulário for submetido.
+label e input são usados para criar campos de entrada para o nome e idade da pessoa.
+formControlName é usado para associar cada input a um controle no FormGroup.
+cliente.component.spec.ts:
+
+  
+ 
+// Teste unitário para o componente Cliente
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ClienteComponent } from './cliente.component';
+
+describe('ClienteComponent', () => {
+  let component: ClienteComponent;
+  let fixture: ComponentFixture<ClienteComponent>;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [ClienteComponent]
+    });
+    fixture = TestBed.createComponent(ClienteComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+Este é um arquivo de teste unitário para o componente Cliente.
+Os testes garantem que o componente seja criado corretamente e suas funcionalidades funcionem como esperado.
+A função TestBed.configureTestingModule configura o ambiente de teste, incluindo a declaração do componente a ser testado.
+O componente é criado usando TestBed.createComponent.
+O teste it('should create') verifica se o componente foi criado com sucesso.
+cliente.component.ts:
+
+  
+ 
+// Código do componente Cliente
+import { Component } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Pessoa } from './Pessoa';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-cliente',
+  templateUrl: './cliente.component.html',
+  styleUrls: ['./cliente.component.css'
+})
+export class ClienteComponent {
+  pessoaForm: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private router: Router) {
+    this.pessoaForm = this.formBuilder.group({
+      nome: ['', Validators.required],
+      idade: [0, Validators.required],
+    });
+  }
+
+  ngOnInit() {
+    // Navegar para a rota "cliente" assim que o componente for carregado
+    this.router.navigate(['/cliente']);
+  }
+
+  salvarPessoa() {
+    if (this.pessoaForm && this pessoaForm.valid) {
+      const nomeControl = this.pessoaForm.get('nome');
+      const idadeControl = this.pessoaForm.get('idade');
+
+      if (nomeControl && idadeControl) {
+        const nome = nomeControl.value;
+        const idade = idadeControl.value;
+
+        const novaPessoa = new Pessoa(nome, idade);
+        console.log('Nova Pessoa:', novaPessoa);
+      }
+    }
+  }
+}
+Este é o código do componente Cliente. O componente é uma classe TypeScript que define a lógica do componente.
+
+FormGroup e FormBuilder são importados para criar e gerenciar um formulário reativo.
+Pessoa é importado para criar uma instância de Pessoa.
+Router é importado para navegar para outras rotas.
+No construtor, o FormGroup pessoaForm é criado usando o FormBuilder. Ele contém os campos nome e idade.
+
+No método ngOnInit(), o componente navega automaticamente para a rota "cliente" quando é carregado.
+
+O método salvarPessoa() é chamado quando o formulário é submetido. Ele valida o formulário e cria uma nova instância de Pessoa com os dados inseridos.
+
+cliente.module.ts:
+
+  
+ 
+// Módulo do componente Cliente
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ClienteComponent } from './cliente.component';
+
+@NgModule({
+  declarations: [ClienteComponent],
+  imports: [ReactiveFormsModule],
+})
+export class ClienteModule { }
+Este é o módulo do componente Cliente. Ele é responsável por declarar o componente, importar o módulo ReactiveFormsModule para formulários reativos e configurar o módulo.
+app-routing.module.ts:
+
+  
+ 
+// Módulo de roteamento da aplicação
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { ClienteComponent } from './cliente/cliente.component';
+
+const routes: Routes = [
+  { path: 'cliente', component: ClienteComponent }, // Define a rota para o ClienteComponent
+  // Outras rotas podem ser adicionadas aqui
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppRoutingModule { }
+Este é o módulo de roteamento da aplicação. Ele define as rotas da aplicação, associando a rota 'cliente' ao componente ClienteComponent.
+app.component.html:
+
+html
+ 
+<!-- Template do componente raiz da aplicação -->
+<a routerLink="/cliente">Ir para Cliente</a><br>
+<a [routerLink]="['/cliente']">name</a>
+
+<router-outlet></router-outlet>
+Este é o template do componente raiz da aplicação. Ele inclui links para navegar para a rota "cliente" usando a diretiva routerLink.
+<router-outlet> é um marcador de posição que exibe o componente associado à rota ativa.
+app.component.spec.ts:
+
+  
+ 
+// Teste unitário para o componente raiz da aplicação
+import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppComponent } from './app.component';
+
+describe('AppComponent', () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [RouterTestingModule],
+    declarations: [AppComponent]
+  }));
+
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
+  });
+
+  it('should render title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Formularios app is running!');
+  });
+});
+Este é um arquivo de teste unitário para o componente raiz da aplicação. Ele testa se o componente raiz (AppComponent) é criado corretamente.
+app.component.ts:
+
+  
+ 
+// Código do componente raiz da aplicação
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  // Método para navegar para o ClienteComponent
+  navegarParaCliente() {
+    this.router.navigate(['/cliente']);
+  }
+}
+Este é o código do componente raiz da aplicação (AppComponent). Ele importa o Router para permitir a navegação.
+
+O método navegarParaCliente() é chamado para navegar para a rota "cliente" quando o link é clicado.
+
+app.module.ts:
+
+  
+ 
+// Módulo raiz da aplicação
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { ClienteModule } from './cliente/cliente.module'; // Importe o ClienteModule
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, ClienteModule], // Adicione o ClienteModule aqui
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+Este é o módulo raiz da aplicação. Ele declara o componente raiz (AppComponent) e importa o ClienteModule para que o componente Cliente seja acessível em toda a aplicação.
+Isso deve ajudar a entender o que cada parte do código faz em detalhes.

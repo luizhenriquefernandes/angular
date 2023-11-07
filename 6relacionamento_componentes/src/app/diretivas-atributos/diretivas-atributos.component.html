@@ -1,0 +1,42 @@
+<hr>
+<h1>14 Conhecendo a ng Class</h1>
+<!-- Criando o componente diretivasAtributos ng generate component diretivasAtributos -->
+<p>ng Class Testando ficará uma página vermelha quando for false e azul quando for true</p>
+<p [ngClass] = "{'active':valor,'disabled':!valor}">oi</p>
+<hr>
+<h1>Aula 15 Conhecendo o ng Style</h1>
+<!-- vendo o comportamento do ng style esperado o pixel da tela aumentar e as cores
+alternarem de violet para orange-->
+<p [ngStyle]="{'height': heightPx, 'background': backgroundC}">ngClass</p>
+<!-- Aula 16 ng Model -->
+<hr>
+<p>Aula 16 Conhecendo o ng Model</p>
+<input [(ngModel)]="nome"> {{nome}} <!--Esperado o que escrever aparecer ao lado-->
+<!-- agora iremos criar um botão e quando clicar deverá incluir o nome digitado na lista -->
+<button (click)="salvar()">Salvar</button> <!--criar o método salvar-->
+<li *ngFor="let item of items">{{item.nome}}</li>
+<hr>
+<h1>Aula 17 Trabalhando com ng template</h1>
+
+<input [(ngModel)]="nomeTemplate"> {{nomeTemplate}}
+<button (click)="salvarTemplate()">Salvar Template</button>
+
+<ng-template ngFor let-itemTemplate [ngForOf]="itemTemplate">
+    <p>{{itemTemplate.nomeTemplate}}</p>
+</ng-template>
+<hr>
+<h1>Aula 18 Ng Content</h1>
+<!-- É um modo de selecionar elementos de componentes e exibir na tela -->
+<ng-content select = "h1"></ng-content>
+<!-- Buscar documentação para  por em prática-->
+<hr>
+<h1>Aula 19 trabalhando com pipe |</h1>
+<p>O pipe assume uma importância fundamental, de chamar funções
+    nas interpolações.
+</p>
+<p>{{date}}</p>
+<p>{{date | date:"dd/MM/yyyy"}}</p>
+<p>Neste caso o comendo | ele pega uma função de uma biblioteca
+    e com isso ele insere os métodos, podemos deixar todas as letras
+    maiúsculas ou minúsculas e até consultar bibliotecas construídas.
+</p>

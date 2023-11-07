@@ -82,4 +82,12 @@ public list1: Array<{item: string, preco: number}> = [
     this.laranjaLavandaClique = true;
   }
  }
+ /**13 fazendo uma lista com push e splice */
+ public onClickEventList(event:number){
+  this.list1.splice(event,1);
+
+ }
+ public onClickAddList(){
+  this.list1.push({item:"zoro",preco:222.90});
+ }
 }

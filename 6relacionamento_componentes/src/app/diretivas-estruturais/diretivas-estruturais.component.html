@@ -27,6 +27,22 @@ com essa list criar um item.nome -->
         {{nome.item}} = {{nome.preco}}
     </li>
 </ul>
+<hr>
+<h1>13 Fazendo uma lista composta com produto e preço e botão de adicionar</h1>
+<ul>
+    <li *ngFor="let nome of list1; let i = index;" (click)="onClickEventList(i)">
+       [ {{i}} ]-{{nome.item}} - preco = {{nome.preco}}
+    </li>
+</ul>
+<button (click) = "onClickAddList()">Adicionar</button>
+<!-- Comportamento ao clicar no botão vai adicionar uma palavra na lista
+ao clicar em qualquer lugar da página a função splice irá apagar tudo na lista -->
+
+
+
+
+
+
 
 
 
